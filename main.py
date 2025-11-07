@@ -6,7 +6,6 @@ os.system("cls")
 from datetime import datetime 
 
 while True:
-    data_de_hoje = 
     print("--------------------MENU ORGANIZA FESTA--------------------")
     opcoes = input(
         "escolha o que você deseja fazer: \nAdicionar  \nVisualizar \nEditar  \nExcluir n\tarefa e orcamento \n\nSair \nEscolha: ").lower()
