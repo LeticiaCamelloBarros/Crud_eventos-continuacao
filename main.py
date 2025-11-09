@@ -5,7 +5,7 @@ os.system("cls")
 
 while True:
     print("--------------------MENU ORGANIZA FESTA--------------------")
-    opcoes = input("Escolha o que você deseja fazer: \nAdicionar  \nVisualizar \nEditar \nLucro Bruto  \nExcluir \nTarefa e Orcamento \nSair \nEscolha: ").lower()
+    opcoes = input("Escolha o que você deseja fazer: \nAdicionar  \nVisualizar \nEditar \nLucro Bruto  \nExcluir \nTempo \nTarefa e Orcamento \nSair \nEscolha: ").lower()
 
     if opcoes == "sair":
         break
@@ -30,7 +30,7 @@ while True:
         nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
 
-    elif opcoes == "lucro bruto" or "lb":
+    elif opcoes == "lucro bruto" or opcoes == "lb":
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         calcular_lucro_bruto(nome_do_evento)
 
@@ -38,4 +38,8 @@ while True:
     elif opcoes == "editar" or opcoes == "edit":
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         editar(nome_do_evento)
+
+    elif opcoes == "tempo" or opcoes == "time":
+        nome_do_evento = input("Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
+        tempo_restante_evento(nome_do_evento)
         
