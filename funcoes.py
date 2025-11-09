@@ -1,5 +1,6 @@
 import os
 from datetime import datetime, timedelta
+import random
 
 def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
@@ -229,4 +230,37 @@ def tarefas_orcamento(nome_evento):
             orcamento_evento = buscar_orcamento[4]    
             print(f"Orçamento disponivel para o evento {nome_evento}: R$ {orcamento_evento}")
             print(f"Valor restante apos as tarefas: R$ {float(orcamento_evento) - valor_total}")
-            break      
+            break
+
+def oferecer_sugestoes(nome_evento):
+    dados_do_evento = []   
+    nome_evento_arquivo = nome_evento.replace(' ', '_')
+    arquivo_nome = f"{nome_evento_arquivo}.txt"
+    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+        for linha in arquivo:
+            dados_do_evento.append(linha.strip())
+    
+    tipo_evento = dados_do_evento[1].lower()
+
+    sugestao_fornecedores = {
+        "casamento": ["buffet salgueiro", "barreiros eventos", "recife casamentos"],
+        "aniversario": ["festas salgueirinho", "niver recife", "niver & cia"],
+        "reuniao": ["ceo eventos", "sei la nao sei", "cesar eventos"]
+    }
+
+    sugestao_decoracao = {
+        "casamento": ["flores", "bolo de noiva", "buques"],
+        "aniversario": ["doces", "sorvete", "animadores"],
+        "reuniao": ["cafe", "brindes", "lanches"]
+    }
+
+    if tipo_evento in sugestao_fornecedores:
+        fornecedores = sugestao_fornecedores[tipo_evento]
+        decoracao = sugestao_decoracao[tipo_evento]
+        sugestao_decoracao = random.choice(decoracao)
+        sugestao_fornecedores = random.choice(fornecedores)
+        print(f"sugestao forn para o evento {nome_evento}: {sugestao_fornecedores}")
+        print(f"sugestao decoracao e cadapio para o evento {nome_evento}: {sugestao_decoracao}")
+        
+    else:
+        print(f"nao temos sugestoees no momento.")

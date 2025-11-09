@@ -46,4 +46,8 @@ while True:
     elif opcoes == "tarefa e orcamento" or opcoes == "to":
         nome_do_evento = input("Insira o nome do evento que deseja adcionar as tarefas e atualizar o orçamento: ").capitalize().strip()
         tarefas_orcamento(nome_do_evento)
+
+    elif opcoes == "sugestao" or opcoes == "sug":
+        nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
+        oferecer_sugestoes(nome_do_evento)
         
