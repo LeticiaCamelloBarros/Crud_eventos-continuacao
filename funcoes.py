@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
@@ -64,8 +64,9 @@ def editar(nome_evento):
         dados_novos[4] = nova_orc
 
     if opcao != "nome":
-        for itens in dados_novos:    
-            arquivo.write(itens + '\n')
+        with open(arquivo_nome, "w") as arquivo:
+            for itens in dados_novos:
+                arquivo.write(itens + '\n')
 
 def calcular_lucro_bruto(nome_evento):
     buscar_orcamento = []
@@ -108,6 +109,25 @@ def calcular_lucro_bruto(nome_evento):
         except ValueError:
             print("Escolha a opção usando digitos 1 ou 2.")
             
+def tempo_restante_evento(nome_evento):
+    dados_evento = []
+    nome_evento_arquivo = nome_evento.replace(' ', '_')
+    arquivo_nome = f"{nome_evento_arquivo}.txt"
+    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+        for linha in arquivo:
+            dados_evento.append(linha.strip())
+    data_evento = dados_evento[2]
+    data_evento_brasileiro = datetime.strptime(data_evento, "%d/%m/%Y") 
+    data_atual = datetime.now()
+    quanto_falta = data_evento_brasileiro - data_atual
+
+    if quanto_falta > timedelta(0):
+        print(f"Faltam {abs(quanto_falta.days)} dias para o evento!")
+    elif quanto_falta == timedelta(0):
+        print(f"O evento será hoje!!")
+    else:
+        print(f"Esse evento já aconteceu há {abs(quanto_falta.days)} dias")
+
 
 def retornando_data_str_E_in_var():
     # essa função retornar a data de hoje (na ordem certa e sem o tempo exato que a data foi requerida ) e o dia 
