@@ -27,11 +27,6 @@ while True:
         nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
 
-    elif opcoes == "lucro bruto" or opcoes == "lb":
-        nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
-        calcular_lucro_bruto(nome_do_evento)
-
-
     elif opcoes == "editar" or opcoes == "edit":
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         editar(nome_do_evento)
