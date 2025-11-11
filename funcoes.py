@@ -2,6 +2,7 @@ import os
 from datetime import datetime, timedelta
 import random
 
+
 def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
     """
     Função usada para criar arquivo com base nas informações:
@@ -12,12 +13,14 @@ def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
 
     """
 
-    dados = [nome_evento, tipo_evento, data_evento, local_evento]
+    dados = [f"evento :{nome_evento}",
+             f"tipo :{tipo_evento}", f"data :{data_evento}", f"local :{local_evento}"]
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
         for dado in dados:
             arquivo.write(dado + "\n")
+
 
 def visualizar(nome_evento):
     """
@@ -30,6 +33,7 @@ def visualizar(nome_evento):
         for linha in arquivo:
             print(linha.strip())
 
+
 def excluir(nome_evento):
     """
     Função usada para remover o arquivo do banco de dados
@@ -39,18 +43,20 @@ def excluir(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     os.remove(arquivo_nome)
 
+
 def editar(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     dados_novos = []
 
-    opcao = input("Qual informação que você deseja alterar: \nNome do evento \nTipo do evento \nData do evento \nLocal do evento \nOrçamento \nEscolha: ")
+    opcao = input(
+        "Qual informação que você deseja alterar: \nNome do evento \nTipo do evento \nData do evento \nLocal do evento \nOrçamento \nEscolha: ")
 
     arquivo = open(arquivo_nome, "r")
     for linha in arquivo:
-            dados_novos.append(linha.strip())
+        dados_novos.append(linha.strip())
     arquivo.close()
-                               
+
     if opcao == "nome":
         novo_nome = input("Digite o novo nome: ")
         dados_novos[0] = novo_nome
@@ -59,11 +65,10 @@ def editar(nome_evento):
         os.remove(arquivo_nome)
 
         with open(arquivo_nome_novo, "w") as arquivo:
-            for itens in dados_novos:    
+            for itens in dados_novos:
                 arquivo.write(itens + '\n')
         print(f"Arquivo com novo nome {arquivo_nome_novo}")
         print(f"Para acessar use: {novo_nome}")
-                 
 
     elif opcao == "tipo":
         novo_tipo = input("Digite o novo tipo: ")
@@ -72,7 +77,7 @@ def editar(nome_evento):
     elif opcao == "data":
         nova_data = input("Digite a nova data desta forma (XX/YY/ZZZZ): ")
         dados_novos[2] = nova_data
-            
+
     elif opcao == "local":
         novo_local = input("Digite o novo local: ")
         dados_novos[3] = novo_local
@@ -85,7 +90,8 @@ def editar(nome_evento):
         with open(arquivo_nome, "w") as arquivo:
             for itens in dados_novos:
                 arquivo.write(itens + '\n')
-            
+
+
 def tempo_restante_evento(nome_evento):
     """
     Função usada para visualizar quantos dias faltam para o evento com base na data de hoje
@@ -98,7 +104,7 @@ def tempo_restante_evento(nome_evento):
         for linha in arquivo:
             dados_evento.append(linha.strip())
     data_evento = dados_evento[2]
-    data_evento_brasileiro = datetime.strptime(data_evento, "%d/%m/%Y") 
+    data_evento_brasileiro = datetime.strptime(data_evento, "%d/%m/%Y")
     data_atual = datetime.now()
     quanto_falta = data_evento_brasileiro - data_atual
 
@@ -108,6 +114,7 @@ def tempo_restante_evento(nome_evento):
         print(f"O evento será hoje!!")
     else:
         print(f"Esse evento já aconteceu há {abs(quanto_falta.days)} dias")
+
 
 def tarefas_orcamento(nome_evento):
     """
@@ -131,23 +138,27 @@ def tarefas_orcamento(nome_evento):
         if desejo == "sair" or desejo == "s" or desejo == 3:
             break
 
-        elif desejo == "add" or desejo == "a" or desejo == 2 o:
+        elif desejo == "add" or desejo == "a" or desejo == 2 or desejo == "a":
             try:
                 nome_tarefa = input("Digite o nome da tarefa: ").strip()
-                valor_tarefa = input(f"Digite o custo de {nome_tarefa}").strip()
+                valor_tarefa = input(
+                    f"Digite o custo de {nome_tarefa}").strip()
                 nomes_tarefas.append(nome_tarefa)
                 valores_tarefas.append(float(valor_tarefa))
-            except ValueError: 
+            except ValueError:
                 print("Erro: digite no formato correto")
 
         elif desejo == "orc" or desejo == "o" or desejo == 1:
             print(valores_tarefas)
             valor_total = sum(valores_tarefas)
-            orcamento_evento = valor_total * 1.25  
-            print(f'Orçamento previsto para o evento: R${orcamento_evento:.2f}')
+            orcamento_evento = valor_total * 1.25
+            print(
+                f'Orçamento previsto para o evento: R${orcamento_evento:.2f}')
 
             with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-                arquivo.write(f"Orçamento total (com margem 25%): R${orcamento_evento:.2f}")
+                arquivo.write(
+                    f"Orçamento total (com margem 25%): R${orcamento_evento:.2f}")
+
 
 def oferecer_sugestoes(nome_evento):
     """
@@ -155,7 +166,7 @@ def oferecer_sugestoes(nome_evento):
     *Casamento, aniversario e reuniao são definidas como padrão, porem da para criar novas na função [Cadastrar fornecedores]
     """
 
-    dados_do_evento = []   
+    dados_do_evento = []
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     try:
@@ -164,14 +175,19 @@ def oferecer_sugestoes(nome_evento):
                 dados_do_evento.append(linha.strip())
     except FileNotFoundError:
         print(f"Cadastro não foi encontrado.")
-        escolha = input("Deseja cadastrar esse evento primeiro? (sim/não): ").strip().lower()
+        escolha = input(
+            "Deseja cadastrar esse evento primeiro? (sim/não): ").strip().lower()
 
         if escolha == "sim":
-            nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
-            tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
+            nome_do_evento = input(
+                "Insira o nome do evento: ").capitalize().strip()
+            tipo_do_evento = input(
+                "Insira o tipo de evento: ").capitalize().strip()
             data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
-            local_do_evento = input("Insira o local do evento: ").capitalize().strip()
-            criar_evento(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento)
+            local_do_evento = input(
+                "Insira o local do evento: ").capitalize().strip()
+            criar_evento(nome_do_evento, tipo_do_evento,
+                         data_do_evento, local_do_evento)
             orcamento_do_evento = tarefas_orcamento(nome_do_evento)
             print("\n Evento cadastrado com sucesso!")
 
@@ -188,7 +204,7 @@ def oferecer_sugestoes(nome_evento):
             print("Voltando ao menu...")
 
     tipo_evento = dados_do_evento[1].lower()
-    
+
     sugestao_fornecedores = {
         "casamento": ["buffet salgueiro", "barreiros eventos", "recife casamentos"],
         "aniversario": ["festas salgueirinho", "niver recife", "niver & cia"],
@@ -213,7 +229,7 @@ def oferecer_sugestoes(nome_evento):
     fornecedores_cadastrador = []
     tipos_fornecedores_cadastrados = []
 
-    with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:    
+    with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:
         for linha in arquivo:
             linha = linha.strip()
             parte1, parte2 = linha.split("-")
@@ -227,9 +243,10 @@ def oferecer_sugestoes(nome_evento):
             sugestao_fornecedores[tipo].append(fornecedor)
         elif tipo not in sugestao_fornecedores:
             sugestao_fornecedores[tipo] = [fornecedor]
-    
+
     if tipo_evento in sugestao_fornecedores:
-        fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
+        fornecedor_aleatorio = random.choice(
+            sugestao_fornecedores[tipo_evento])
         print(f"fornecedor sugestao {fornecedor_aleatorio}")
         print("sugestões de decoração para o seu evento:")
         if tipo_evento in sugestao_decoracao:
@@ -239,9 +256,10 @@ def oferecer_sugestoes(nome_evento):
         if tipo_evento in sugestao_menu:
             for item in sugestao_menu[tipo_evento]:
                 print(item)
-        
+
     else:
         print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastr")
+
 
 def cadastrar_fornecedores():
     """
@@ -252,10 +270,12 @@ def cadastrar_fornecedores():
     fornecedores = []
 
     while True:
-        tipo_fornecedor = input("Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
-        if tipo_fornecedor.lower() == 'sair' or :
+        tipo_fornecedor = input(
+            "Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        if tipo_fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == "s":
             break
-        fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        fornecedor = input(
+            "Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
         if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
             break
         dados_fornecedor = tipo_fornecedor + "-" + fornecedor
@@ -265,22 +285,25 @@ def cadastrar_fornecedores():
         for forn in fornecedores:
             arquivo.write(forn + "\n")
 
+
 def convidados_evento(nome_evento):
     """
     Função usada para gerenciar a lista de convidados de um evento
     """
-    
+
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
     convidados = []
 
     while True:
-        escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
+        escolha = input(
+            "Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
         if escolha == "sair":
             break
 
         elif escolha == "remover":
-            nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
+            nome_remover = input(
+                "Digite o nome do convidado que deseja remover: ").strip().lower()
             with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
                 for linha in arquivo:
                     convidados.append(linha.strip())
@@ -294,13 +317,15 @@ def convidados_evento(nome_evento):
                 print(f"{nome_remover} não está na lista de convidados.")
 
         elif escolha == "adicionar":
-            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+            convidado = input(
+                "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
             if convidado.lower() == "sair":
                 break
             convidados.append(convidado)
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
         for convidado in convidados:
             arquivo.write(convidado + "\n")
+
 
 def chamar_menu():
     print("------------------------------------------------------------")
@@ -317,5 +342,3 @@ def chamar_menu():
     print("9 - Lista de convidados do evento")
     print("10 - Sair")
     print("------------------------------------------------------------")
-
-
