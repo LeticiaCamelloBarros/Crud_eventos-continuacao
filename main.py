@@ -8,8 +8,8 @@ while True:
     chamar_menu()
 
     opcoes = input("Escolha a opção desejada: ").lower()
-    
-    if opcoes == "sair"  or opcoes == "10":
+
+    if opcoes == "sair" or opcoes == "10":
         break
 
     elif opcoes == "adicionar" or opcoes == "add" or opcoes == "1":
@@ -17,20 +17,25 @@ while True:
         print("  CADASTRAR NOVO EVENTO".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
-        tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
+        nome_do_evento = input(
+            "Insira o nome do evento: ").capitalize().strip()
+        tipo_do_evento = input(
+            "Insira o tipo de evento: ").capitalize().strip()
         data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
-        local_do_evento = input("Insira o local do evento: ").capitalize().strip()
-        criar_evento(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento)
+        local_do_evento = input(
+            "Insira o local do evento: ").capitalize().strip()
+        criar_evento(nome_do_evento, tipo_do_evento,
+                     data_do_evento, local_do_evento)
         orcamento_do_evento = tarefas_orcamento(nome_do_evento)
         print("\n Evento cadastrado com sucesso!")
-        
+
     elif opcoes == "visualizar" or opcoes == "visu" or opcoes == "2":
         print("\n" + "-" * 60)
         print("  VISUALIZAR EVENTOS".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
+        nome_do_evento = input(
+            "Insira o nome do evento: ").capitalize().strip()
         print()
         visualizar(nome_do_evento)
 
@@ -54,7 +59,8 @@ while True:
         print("\n" + "-" * 60)
         print("  VISUALIZAR QUANTO TEMPO FALTA PARA UM EVENTO".center(60))
         print(("-" * 60) + "\n")
-        nome_do_evento = input("Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
         tempo_restante_evento(nome_do_evento)
 
     elif opcoes == "tarefa e orcamento" or opcoes == "to" or opcoes == "6":
@@ -62,7 +68,8 @@ while True:
         print("  CADASTRAR UM ORÇAMENTO".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento que deseja adcionar as tarefas e atualizar o orçamento: ").capitalize().strip()
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja adcionar as tarefas e atualizar o orçamento: ").capitalize().strip()
         tarefas_orcamento(nome_do_evento)
 
     elif opcoes == "cadastrar" or opcoes == "forn" or opcoes == "7":
@@ -77,7 +84,8 @@ while True:
         print("  SUGESTÕES DE EVENTOS".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
         oferecer_sugestoes(nome_do_evento)
 
     elif opcoes == "convidados" or opcoes == "9":
@@ -85,9 +93,6 @@ while True:
         print("  LISTA DE CONVIDADOS".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento que deseja ver a lista de convidados: ").capitalize().strip()
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja ver a lista de convidados: ").capitalize().strip()
         convidados_evento(nome_do_evento)
-        
-
-
-
