@@ -2,7 +2,7 @@ import os
 from datetime import datetime, timedelta
 import random
 
-def adicionar(nome_evento, tipo_evento, data_evento, local_evento):
+def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
     """
     Função usada para criar arquivo com base nas informações:
     - Nome do evento
@@ -151,29 +151,63 @@ def tarefas_orcamento(nome_evento):
 
 def oferecer_sugestoes(nome_evento):
     """
-    Função usada para sugerir fornecedores e decorações
+    Função usada para sugerir fornecedores, decorações e menus
     *Casamento, aniversario e reuniao são definidas como padrão, porem da para criar novas na função [Cadastrar fornecedores]
     """
 
     dados_do_evento = []   
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            dados_do_evento.append(linha.strip())
-    
-    tipo_evento = dados_do_evento[1].lower()
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                dados_do_evento.append(linha.strip())
+    except FileNotFoundError:
+        print(f"Cadastro não foi encontrado.")
+        escolha = input("Deseja cadastrar esse evento primeiro? (sim/não): ").strip().lower()
 
+        if escolha == "sim":
+            nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
+            tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
+            data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
+            local_do_evento = input("Insira o local do evento: ").capitalize().strip()
+            criar_evento(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento)
+            orcamento_do_evento = tarefas_orcamento(nome_do_evento)
+            print("\n Evento cadastrado com sucesso!")
+
+            nome_evento_arquivo = nome_evento.replace(' ', '_')
+            arquivo_nome = f"{nome_evento_arquivo}.txt"
+
+            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                for linha in arquivo:
+                    dados_do_evento.append(linha.strip())
+
+        elif escolha == "não":
+            print("Voltando ao menu...")
+        else:
+            print("Voltando ao menu...")
+
+    tipo_evento = dados_do_evento[1].lower()
+    
     sugestao_fornecedores = {
         "casamento": ["buffet salgueiro", "barreiros eventos", "recife casamentos"],
         "aniversario": ["festas salgueirinho", "niver recife", "niver & cia"],
-        "reuniao": ["ceo eventos", "sei la nao sei", "cesar eventos"]
+        "reuniao": ["ceo eventos", "sei la nao sei", "cesar eventos"],
+        "festa adulto": ["vitrine", "lounge", "life"]
     }
 
     sugestao_decoracao = {
-        "casamento": ["flores", "bolo de noiva", "buques"],
-        "aniversario": ["doces", "sorvete", "animadores"],
-        "reuniao": ["cafe", "brindes", "lanches"]
+        "casamento": ["flores", "musica ao vivo", "buques"],
+        "aniversario": ["brinquedos", "baloes", "animadores"],
+        "reuniao": ["cartoes de visita", "brindes", "decoracao corporativa"],
+        "festa adulto": ["luzes", "dj", "camarotes"]
+    }
+
+    sugestao_menu = {
+        "casamento": ["jantar completo", "open bar", "coquetel"],
+        "aniversario": ["buffet infantil", "doces e salgados", "bolo personalizado"],
+        "reuniao": ["coffee break", "almoço executivo", "jantar formal"],
+        "festa adulto": ["vodka", "whisky", "gelo"]
     }
 
     fornecedores_cadastrador = []
@@ -200,6 +234,10 @@ def oferecer_sugestoes(nome_evento):
         print("sugestões de decoração para o seu evento:")
         if tipo_evento in sugestao_decoracao:
             for item in sugestao_decoracao[tipo_evento]:
+                print(item)
+        print("sugestões de menu para o seu evento:")
+        if tipo_evento in sugestao_menu:
+            for item in sugestao_menu[tipo_evento]:
                 print(item)
         
     else:
@@ -237,11 +275,47 @@ def convidados_evento(nome_evento):
     convidados = []
 
     while True:
-        convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
-        if convidado.lower() == 'sair':
+        escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
+        if escolha == "sair":
             break
-        convidados.append(convidado)
 
+        elif escolha == "remover":
+            nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
+            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                for linha in arquivo:
+                    convidados.append(linha.strip())
+            if nome_remover in convidados:
+                convidados.remove(nome_remover)
+                with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+                    for convidado in convidados:
+                        arquivo.write(convidado + "\n")
+                print(f"{nome_remover} foi removido da lista de convidados.")
+            else:
+                print(f"{nome_remover} não está na lista de convidados.")
+
+        elif escolha == "adicionar":
+            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+            if convidado.lower() == "sair":
+                break
+            convidados.append(convidado)
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
         for convidado in convidados:
             arquivo.write(convidado + "\n")
+
+def chamar_menu():
+    print("------------------------------------------------------------")
+    print("                 GERENCIADOR DE EVENTOS                    ")
+    print("------------------------------------------------------------")
+    print("1 - Adicionar evento")
+    print("2 - Visualizar evento")
+    print("3 - Editar evento")
+    print("4 - Excluir evento")
+    print("5 - Ver tempo restante")
+    print("6 - Tarefas e orçamento")
+    print("7 - Cadastrar fornecedor")
+    print("8 - Sugestão de evento")
+    print("9 - Lista de convidados do evento")
+    print("10 - Sair")
+    print("------------------------------------------------------------")
+
+

@@ -4,20 +4,8 @@ os.system("cls")
 
 
 while True:
-    print("------------------------------------------------------------")
-    print("                 GERENCIADOR DE EVENTOS                    ")
-    print("------------------------------------------------------------")
-    print("1 - Adicionar evento")
-    print("2 - Visualizar evento")
-    print("3 - Editar evento")
-    print("4 - Excluir evento")
-    print("5 - Ver tempo restante")
-    print("6 - Tarefas e orçamento")
-    print("7 - Cadastrar fornecedor")
-    print("8 - Sugestão de evento")
-    print("9 - Lista de convidados do evento")
-    print("10 - Sair")
-    print("------------------------------------------------------------")
+
+    chamar_menu()
 
     opcoes = input("Escolha a opção desejada: ").lower()
     
@@ -33,7 +21,7 @@ while True:
         tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
         data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
         local_do_evento = input("Insira o local do evento: ").capitalize().strip()
-        adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento)
+        criar_evento(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento)
         orcamento_do_evento = tarefas_orcamento(nome_do_evento)
         print("\n Evento cadastrado com sucesso!")
         
@@ -100,3 +88,6 @@ while True:
         nome_do_evento = input("Insira o nome do evento que deseja ver a lista de convidados: ").capitalize().strip()
         convidados_evento(nome_do_evento)
         
+
+
+
