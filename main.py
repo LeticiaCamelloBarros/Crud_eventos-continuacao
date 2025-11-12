@@ -19,11 +19,23 @@ while True:
 
         nome_do_evento = input(
             "Insira o nome do evento: ").capitalize().strip()
+        if not nome_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
         tipo_do_evento = input(
             "Insira o tipo de evento: ").capitalize().strip()
+        if not tipo_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
         data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
+        if not data_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
         local_do_evento = input(
             "Insira o local do evento: ").capitalize().strip()
+        if not local_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
         criar_evento(nome_do_evento, tipo_do_evento,
                      data_do_evento, local_do_evento)
         orcamento_do_evento = tarefas_orcamento(nome_do_evento)
@@ -39,7 +51,16 @@ while True:
         print()
         visualizar(nome_do_evento)
 
-    elif opcoes == "excluir" or opcoes == "exc" or opcoes == "3":
+    elif opcoes == "editar" or opcoes == "edit" or opcoes == "3":
+        print("\n" + "-" * 60)
+        print("  EDITAR UM EVENTO".center(60))
+        print(("-" * 60) + "\n")
+
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja editar: ").capitalize().strip()
+        editar(nome_do_evento)
+
+    elif opcoes == "excluir" or opcoes == "exc" or opcoes == "4":
         print("\n" + "-" * 60)
         print("  EXCLUIR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
@@ -48,21 +69,13 @@ while True:
             "Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
 
-    elif opcoes == "editar" or opcoes == "edit" or opcoes == "4":
-        print("\n" + "-" * 60)
-        print("  EXCLUIR UM EVENTO".center(60))
-        print(("-" * 60) + "\n")
-
-        nome_do_evento = input(
-            "Insira o nome do evento que deseja editar: ").capitalize().strip()
-        editar(nome_do_evento)
-
     elif opcoes == "tempo" or opcoes == "time" or opcoes == "5":
         print("\n" + "-" * 60)
         print("  VISUALIZAR QUANTO TEMPO FALTA PARA UM EVENTO".center(60))
         print(("-" * 60) + "\n")
         nome_do_evento = input(
             "Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
+
         tempo_restante_evento(nome_do_evento)
 
     elif opcoes == "tarefa e orcamento" or opcoes == "to" or opcoes == "6":
