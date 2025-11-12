@@ -2,17 +2,18 @@ import os
 from datetime import datetime, timedelta
 import random
 
-def adicionar(nome_evento, tipo_evento, data_evento, local_evento):
+def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     """
     Função usada para criar arquivo com base nas informações:
     - Nome do evento
     - Tipo do evento
     - Data do evento
     - Local evento
+    - Orçamento evento
 
     """
 
-    dados = [nome_evento, tipo_evento, data_evento, local_evento]
+    dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
@@ -118,12 +119,14 @@ def tarefas_orcamento(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     nomes_tarefas = []
     valores_tarefas = []
+    dados = []
 
     while True:
 
         print("\n" + "-" * 60)
         print("                  GERENCIADOR DE EVENTOS ")
         print("-" * 60)
+
         print("Escolha a opção:")
         print("[1] - Adicionar tarefa        (add)\n[2] - Orçamento disponível    (orc)\n[3] - Sair                    (sair)")
         desejo = input("→ ").lower()
@@ -134,20 +137,28 @@ def tarefas_orcamento(nome_evento):
         elif desejo == "add":
             try:
                 nome_tarefa = input("Digite o nome da tarefa: ").strip()
-                valor_tarefa = input(f"Digite o custo de {nome_tarefa}").strip()
+                valor_tarefa = input(f"Digite o custo da tarefa {nome_tarefa}").strip()
                 nomes_tarefas.append(nome_tarefa)
                 valores_tarefas.append(float(valor_tarefa))
             except ValueError: 
                 print("Erro: digite no formato correto")
 
         elif desejo == "orc":
-            print(valores_tarefas)
-            valor_total = sum(valores_tarefas)
-            orcamento_evento = valor_total * 1.25  
-            print(f'Orçamento previsto para o evento: R${orcamento_evento:.2f}')
+            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                for linha in arquivo:
+                    dados.append(linha.strip())
+            orcamento_total = int(dados[4])
 
-            with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-                arquivo.write(f"Orçamento total (com margem 25%): R${orcamento_evento:.2f}")
+            print(valores_tarefas)
+            custo_total = sum(valores_tarefas)
+            orcamento_evento = orcamento_total - custo_total
+            dados[4] = orcamento_evento 
+            print(f'Orçamento restante para o evento: R${orcamento_evento:.2f}')
+
+            with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+                for linha in dados:
+                    arquivo.write(str(linha) + "\n")
+
 
 def oferecer_sugestoes(nome_evento):
     """

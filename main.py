@@ -33,8 +33,8 @@ while True:
         tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
         data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
         local_do_evento = input("Insira o local do evento: ").capitalize().strip()
-        adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento)
-        orcamento_do_evento = tarefas_orcamento(nome_do_evento)
+        orcamento = input("Insira o orçamento do evento: ").capitalize().strip()
+        adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento, orcamento)
         print("\n Evento cadastrado com sucesso!")
         
     elif opcoes == "visualizar" or opcoes == "visu" or opcoes == "2":
