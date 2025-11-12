@@ -58,6 +58,7 @@ while True:
 
         nome_do_evento = input(
             "Insira o nome do evento que deseja editar: ").capitalize().strip()
+        nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         editar(nome_do_evento)
 
     elif opcoes == "excluir" or opcoes == "exc" or opcoes == "4":
@@ -67,6 +68,7 @@ while True:
 
         nome_do_evento = input(
             "Insira o nome do evento que deseja apagar: ").capitalize().strip()
+        nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
 
     elif opcoes == "tempo" or opcoes == "time" or opcoes == "5":

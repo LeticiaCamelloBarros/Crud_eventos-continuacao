@@ -23,6 +23,7 @@ def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
         print("Digite de forma correta e entendível")
     except ValueError:
         print("Digite palavras, use nmeros apenas na data do evento")
+        
 
 
 def visualizar(nome_evento):
@@ -51,6 +52,7 @@ def excluir(nome_evento):
         print(
             f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
+        print("")
 
 
 def editar(nome_evento):
@@ -60,6 +62,7 @@ def editar(nome_evento):
     if not os.path.exists(arquivo_nome):
         print(
             f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
     dados_novos = []
@@ -120,7 +123,9 @@ def editar(nome_evento):
 
         print("Dados atualizados com sucesso!")
 
+        print("Dados atualizados com sucesso!")
 
+            
 def tempo_restante_evento(nome_evento):
     """
     Função usada para visualizar quantos dias faltam para o evento com base na data de hoje
@@ -333,12 +338,14 @@ def convidados_evento(nome_evento):
         while True:
             escolha = input(
                 "Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
+            escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
             if escolha == "sair":
                 break
 
             elif escolha == "remover":
                 nome_remover = input(
                     "Digite o nome do convidado que deseja remover: ").strip().lower()
+                nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
                 with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
                     for linha in arquivo:
                         convidados.append(linha.strip())
@@ -354,6 +361,7 @@ def convidados_evento(nome_evento):
             elif escolha == "adicionar":
                 convidado = input(
                     "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+                convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
                 if convidado.lower() == "sair":
                     break
                 convidados.append(convidado)
