@@ -12,70 +12,93 @@ def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
     - Local evento
 
     """
-
-    dados = [f"evento :{nome_evento}",
-             f"tipo :{tipo_evento}", f"data :{data_evento}", f"local :{local_evento}"]
-    nome_evento_arquivo = nome_evento.replace(' ', '_')
-    arquivo_nome = f"{nome_evento_arquivo}.txt"
-    with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
-        for dado in dados:
-            arquivo.write(dado + "\n")
+    try:
+        dados = [nome_evento, tipo_evento, data_evento, local_evento]
+        nome_evento_arquivo = nome_evento.replace(' ', '_')
+        arquivo_nome = f"{nome_evento_arquivo}.txt"
+        with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+            for dado in dados:
+                arquivo.write(dado + "\n")
+    except TypeError:
+        print("Digite de forma correta e entendível")
+    except ValueError:
+        print("Digite palavras, use nmeros apenas na data do evento")
 
 
 def visualizar(nome_evento):
     """
     Função usada para visualizar o evento com base no banco de dados
     """
-
-    nome_evento_arquivo = nome_evento.replace(' ', '_')
-    arquivo_nome = f"{nome_evento_arquivo}.txt"
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            print(linha.strip())
+    try:
+        nome_evento_arquivo = nome_evento.replace(' ', '_')
+        arquivo_nome = f"{nome_evento_arquivo}.txt"
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                print(linha.strip())
+    except FileNotFoundError:
+        print("Esse arquivo não existe, tente criar um evento primeiro")
 
 
 def excluir(nome_evento):
     """
     Função usada para remover o arquivo do banco de dados
     """
-
-    nome_evento_arquivo = nome_evento.replace(' ', '_')
-    arquivo_nome = f"{nome_evento_arquivo}.txt"
-    os.remove(arquivo_nome)
+    try:
+        nome_evento_arquivo = nome_evento.replace(' ', '_')
+        arquivo_nome = f"{nome_evento_arquivo}.txt"
+        os.remove(arquivo_nome)
+    except FileNotFoundError:
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
 
 
 def editar(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
+
+    if not os.path.exists(arquivo_nome):
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
+
     dados_novos = []
 
     opcao = input(
-        "Qual informação que você deseja alterar: \nNome do evento \nTipo do evento \nData do evento \nLocal do evento \nOrçamento \nEscolha: ")
+        "Qual informação que você deseja alterar: \n"
+        "nome - Nome do evento\n"
+        "tipo - Tipo do evento\n"
+        "data - Data do evento\n"
+        "local - Local do evento\n"
+        "orc - Orçamento\n"
+        "Escolha: "
+    ).lower().strip()
 
-    arquivo = open(arquivo_nome, "r")
-    for linha in arquivo:
-        dados_novos.append(linha.strip())
-    arquivo.close()
+    with open(arquivo_nome, "r") as arquivo:
+        for linha in arquivo:
+            dados_novos.append(linha.strip())
 
     if opcao == "nome":
         novo_nome = input("Digite o novo nome: ")
         dados_novos[0] = novo_nome
         nome_evento_arquivo = novo_nome.replace(' ', '_')
         arquivo_nome_novo = f"{nome_evento_arquivo}.txt"
+
         os.remove(arquivo_nome)
 
         with open(arquivo_nome_novo, "w") as arquivo:
-            for itens in dados_novos:
-                arquivo.write(itens + '\n')
-        print(f"Arquivo com novo nome {arquivo_nome_novo}")
-        print(f"Para acessar use: {novo_nome}")
+            for item in dados_novos:
+                arquivo.write(item + '\n')
+
+        print(f"Arquivo renomeado para: {arquivo_nome_novo}")
+        print(f"Para acessar, use: {novo_nome}")
 
     elif opcao == "tipo":
         novo_tipo = input("Digite o novo tipo: ")
         dados_novos[1] = novo_tipo
 
     elif opcao == "data":
-        nova_data = input("Digite a nova data desta forma (XX/YY/ZZZZ): ")
+        nova_data = input("Digite a nova data (XX/YY/ZZZZ): ")
         dados_novos[2] = nova_data
 
     elif opcao == "local":
@@ -86,24 +109,36 @@ def editar(nome_evento):
         nova_orc = input("Digite o novo orçamento: ")
         dados_novos[4] = nova_orc
 
+    else:
+        print("Opção inválida.")
+        return
+
     if opcao != "nome":
         with open(arquivo_nome, "w") as arquivo:
-            for itens in dados_novos:
-                arquivo.write(itens + '\n')
+            for item in dados_novos:
+                arquivo.write(item + '\n')
+
+        print("Dados atualizados com sucesso!")
 
 
 def tempo_restante_evento(nome_evento):
     """
     Função usada para visualizar quantos dias faltam para o evento com base na data de hoje
     """
-
     dados_evento = []
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            dados_evento.append(linha.strip())
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                dados_evento.append(linha.strip())
+    except FileNotFoundError:
+
+        print("Evento não encontrado - tente cadastrar o evento \nou verifique se você digitou o nome como no cadastro do evento")
+        return
+
     data_evento = dados_evento[2]
+
     data_evento_brasileiro = datetime.strptime(data_evento, "%d/%m/%Y")
     data_atual = datetime.now()
     quanto_falta = data_evento_brasileiro - data_atual
@@ -290,41 +325,43 @@ def convidados_evento(nome_evento):
     """
     Função usada para gerenciar a lista de convidados de um evento
     """
+    try:
+        nome_evento_arquivo = nome_evento.replace(' ', '_')
+        arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
+        convidados = []
 
-    nome_evento_arquivo = nome_evento.replace(' ', '_')
-    arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
-    convidados = []
-
-    while True:
-        escolha = input(
-            "Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
-        if escolha == "sair":
-            break
-
-        elif escolha == "remover":
-            nome_remover = input(
-                "Digite o nome do convidado que deseja remover: ").strip().lower()
-            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-                for linha in arquivo:
-                    convidados.append(linha.strip())
-            if nome_remover in convidados:
-                convidados.remove(nome_remover)
-                with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
-                    for convidado in convidados:
-                        arquivo.write(convidado + "\n")
-                print(f"{nome_remover} foi removido da lista de convidados.")
-            else:
-                print(f"{nome_remover} não está na lista de convidados.")
-
-        elif escolha == "adicionar":
-            convidado = input(
-                "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
-            if convidado.lower() == "sair":
+        while True:
+            escolha = input(
+                "Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
+            if escolha == "sair":
                 break
-            convidados.append(convidado)
-    with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-        for convidado in convidados:
-            arquivo.write(convidado + "\n")
+
+            elif escolha == "remover":
+                nome_remover = input(
+                    "Digite o nome do convidado que deseja remover: ").strip().lower()
+                with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                    for linha in arquivo:
+                        convidados.append(linha.strip())
+                if nome_remover in convidados:
+                    convidados.remove(nome_remover)
+                    with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+                        for convidado in convidados:
+                            arquivo.write(convidado + "\n")
+                    print(f"{nome_remover} foi removido da lista de convidados.")
+                else:
+                    print(f"{nome_remover} não está na lista de convidados.")
+
+            elif escolha == "adicionar":
+                convidado = input(
+                    "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+                if convidado.lower() == "sair":
+                    break
+                convidados.append(convidado)
+        with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+            for convidado in convidados:
+                arquivo.write(convidado + "\n")
+    except FileNotFoundError:
+        print("Esse arquivo não existe. Siga a ordem certa")
 
 
 def chamar_menu():
