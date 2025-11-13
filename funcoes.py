@@ -2,14 +2,14 @@ import os
 from datetime import datetime, timedelta
 import random
 
-
-def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
+def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     """
     Função usada para criar arquivo com base nas informações:
     - Nome do evento
     - Tipo do evento
     - Data do evento
     - Local evento
+    - Orçamento evento
 
     """
     try:
@@ -25,6 +25,12 @@ def criar_evento(nome_evento, tipo_evento, data_evento, local_evento):
         print("Digite palavras, use nmeros apenas na data do evento")
         
 
+    dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
+    nome_evento_arquivo = nome_evento.replace(' ', '_')
+    arquivo_nome = f"{nome_evento_arquivo}.txt"
+    with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+        for dado in dados:
+            arquivo.write(dado + "\n")
 
 def visualizar(nome_evento):
     """
@@ -49,6 +55,9 @@ def excluir(nome_evento):
         arquivo_nome = f"{nome_evento_arquivo}.txt"
         os.remove(arquivo_nome)
     except FileNotFoundError:
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
         print("")
 
 
@@ -57,6 +66,8 @@ def editar(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
 
     if not os.path.exists(arquivo_nome):
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
@@ -118,19 +129,27 @@ def editar(nome_evento):
 
         print("Dados atualizados com sucesso!")
 
+        print("Dados atualizados com sucesso!")
+
             
 def tempo_restante_evento(nome_evento):
     """
     Função usada para visualizar quantos dias faltam para o evento com base na data de hoje
     """
-
     dados_evento = []
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
-    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            dados_evento.append(linha.strip())
+    try:
+        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                dados_evento.append(linha.strip())
+    except FileNotFoundError:
+
+        print("Evento não encontrado - tente cadastrar o evento \nou verifique se você digitou o nome como no cadastro do evento")
+        return
+
     data_evento = dados_evento[2]
+
     data_evento_brasileiro = datetime.strptime(data_evento, "%d/%m/%Y")
     data_atual = datetime.now()
     quanto_falta = data_evento_brasileiro - data_atual
@@ -152,12 +171,14 @@ def tarefas_orcamento(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     nomes_tarefas = []
     valores_tarefas = []
+    dados = []
 
     while True:
 
         print("\n" + "-" * 60)
         print("                  GERENCIADOR DE EVENTOS ")
         print("-" * 60)
+
         print("Escolha a opção:")
         print("[1] - Adicionar tarefa        (add)\n[2] - Orçamento disponível    (orc)\n[3] - Sair                    (sair)")
         desejo = input("→ ").lower()
@@ -175,16 +196,21 @@ def tarefas_orcamento(nome_evento):
             except ValueError:
                 print("Erro: digite no formato correto")
 
-        elif desejo == "orc" or desejo == "o" or desejo == 1:
-            print(valores_tarefas)
-            valor_total = sum(valores_tarefas)
-            orcamento_evento = valor_total * 1.25
-            print(
-                f'Orçamento previsto para o evento: R${orcamento_evento:.2f}')
+        elif desejo == "orc":
+            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+                for linha in arquivo:
+                    dados.append(linha.strip())
+            orcamento_total = int(dados[4])
 
-            with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-                arquivo.write(
-                    f"Orçamento total (com margem 25%): R${orcamento_evento:.2f}")
+            print(valores_tarefas)
+            custo_total = sum(valores_tarefas)
+            orcamento_evento = orcamento_total - custo_total
+            dados[4] = orcamento_evento 
+            print(f'Orçamento restante para o evento: R${orcamento_evento:.2f}')
+
+            with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
+                for linha in dados:
+                    arquivo.write(str(linha) + "\n")
 
 
 '''def oferecer_sugestoes(nome_evento):
@@ -506,14 +532,18 @@ def convidados_evento(nome_evento):
             except FileNotFoundError:
                 print("Arquivo não encontrado. Nenhum convidado foi cadastrado ainda.")
 
-        elif escolha == "adicionar":
-            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
-            if convidado.lower() == "sair":
-                break
-            convidados.append(convidado)
-    with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-        for convidado in convidados:
-            arquivo.write(convidado + "\n")
+            elif escolha == "adicionar":
+                convidado = input(
+                    "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+                convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+                if convidado.lower() == "sair":
+                    break
+                convidados.append(convidado)
+        with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
+            for convidado in convidados:
+                arquivo.write(convidado + "\n")
+    except FileNotFoundError:
+        print("Esse arquivo não existe. Siga a ordem certa")
 
 
 def chamar_menu():

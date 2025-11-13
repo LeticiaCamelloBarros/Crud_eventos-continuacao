@@ -19,14 +19,18 @@ while True:
 
         nome_do_evento = input(
             "Insira o nome do evento: ").capitalize().strip()
+        if not nome_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
         tipo_do_evento = input(
             "Insira o tipo de evento: ").capitalize().strip()
+        if not tipo_do_evento:
+            print("voce não pode deixar um campo vazio .Tente de novo")
+            break
         data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
-        local_do_evento = input(
-            "Insira o local do evento: ").capitalize().strip()
-        criar_evento(nome_do_evento, tipo_do_evento,
-                     data_do_evento, local_do_evento)
-        orcamento_do_evento = tarefas_orcamento(nome_do_evento)
+        local_do_evento = input("Insira o local do evento: ").capitalize().strip()
+        orcamento = input("Insira o orçamento do evento: ").capitalize().strip()
+        adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento, orcamento)
         print("\n Evento cadastrado com sucesso!")
 
     elif opcoes == "visualizar" or opcoes == "visu" or opcoes == "2":
@@ -44,6 +48,8 @@ while True:
         print("  EDITAR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
 
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja editar: ").capitalize().strip()
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
         editar(nome_do_evento)
 
@@ -52,6 +58,8 @@ while True:
         print("  EXCLUIR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
 
+        nome_do_evento = input(
+            "Insira o nome do evento que deseja apagar: ").capitalize().strip()
         nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
         excluir(nome_do_evento)
 
@@ -61,6 +69,7 @@ while True:
         print(("-" * 60) + "\n")
         nome_do_evento = input(
             "Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
+
         tempo_restante_evento(nome_do_evento)
 
     elif opcoes == "tarefa e orcamento" or opcoes == "to" or opcoes == "6":
