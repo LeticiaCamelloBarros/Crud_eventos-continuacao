@@ -33,6 +33,7 @@ def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
         for dado in dados:
             arquivo.write(dado + "\n")
 
+
 def visualizar(nome_evento):
     """
     Função usada para visualizar o evento com base no banco de dados
@@ -54,12 +55,12 @@ def excluir(nome_evento):
     try:
         nome_evento_arquivo = nome_evento.replace(' ', '_')
         arquivo_nome = f"{nome_evento_arquivo}.txt"
+
         os.remove(arquivo_nome)
+        print(f"Evento '{nome_evento}' removido com sucesso!")
+
     except FileNotFoundError:
-        print(
-            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
-        return
-        print("")
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
 
 
 def editar(nome_evento):
@@ -67,22 +68,18 @@ def editar(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
 
     if not os.path.exists(arquivo_nome):
-        print(
-            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
     dados_novos = []
 
-    opcao = input(
-        "Qual informação que você deseja alterar: \n"
+    opcao = input("Qual informação que você deseja alterar: \n"
         "nome - Nome do evento\n"
         "tipo - Tipo do evento\n"
         "data - Data do evento\n"
         "local - Local do evento\n"
         "orc - Orçamento\n"
-        "Escolha: "
-    ).lower().strip()
+        "Escolha: ").lower().strip()
 
     with open(arquivo_nome, "r") as arquivo:
         for linha in arquivo:
@@ -318,7 +315,8 @@ def oferecer_sugestoes(nome_evento):
                 print(item)
 
     else:
-        print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastr")'''
+        print("nao temos fornecedores cadastrados para esse tipo, volte ao menu e cadastro")
+
 
 def oferecer_sugestoes(nome_evento):
     """
@@ -475,70 +473,12 @@ def cadastrar_fornecedores():
         dados_fornecedor = tipo_fornecedor + "-" + fornecedor
         fornecedores.append(dados_fornecedor)
 
-            if tipo_fornecedor in ("sair", "s"):
-                break
+        if tipo_fornecedor in ("sair", "s"):
+            break
 
-            if not tipo_fornecedor:
-                print("Tipo não pode ser vazio.")
-                continue
-
-def convidados_evento(nome_evento):
-    """
-    Função usada para gerenciar a lista de convidados de um evento
-    """
-
-    try:
-        nome_evento_arquivo = nome_evento.replace(' ', '_')
-        arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
-        convidados = []
-
-        while True:
-            escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
-
-            escolha = input("Deseja adicionar um convidado ou deseja remover um convidado? (adicionar/remover/sair): \n").strip().lower()
-
-            if escolha == "sair":
-                break
-
-            elif escolha == "remover":
-
-                nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
-
-                nome_remover = input("Digite o nome do convidado que deseja remover: ").strip().lower()
-
-            fornecedor = input(
-                "Digite o nome do fornecedor (ou 'sair' para finalizar): "
-            ).strip().lower()
-
-            if fornecedor in ("sair", "s"):
-                break
-
-            if not fornecedor:
-                print("Nome do fornecedor não pode ser vazio.")
-                continue
-
-            dados_fornecedor = f"{tipo_fornecedor}-{fornecedor}"
-            fornecedores.append(dados_fornecedor)
-
-        except Exception as e:
-            print(f"Erro inesperado ao cadastrar fornecedor: {e}")
+        if not tipo_fornecedor:
+            print("Tipo não pode ser vazio.")
             continue
-
-    try:
-        with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
-            for forn in fornecedores:
-                arquivo.write(forn + "\n")
-
-        print("\nFornecedores cadastrados com sucesso!\n")
-
-    except FileNotFoundError:
-        print("Erro: arquivo 'fornecedores.txt' não encontrado.")
-
-    except PermissionError:
-        print("Erro: permissão negada para escrever no arquivo.")
-
-    except Exception as e:
-        print(f"Erro inesperado ao salvar os fornecedores: {e}")
 
 
 
@@ -570,24 +510,23 @@ def convidados_evento(nome_evento):
             except FileNotFoundError:
                 print("Arquivo não encontrado. Nenhum convidado foi cadastrado ainda.")
 
-            elif escolha == "adicionar":
+        elif escolha == "adicionar":
 
-                convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
 
-                convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
 
-                if convidado.lower() == "sair":
-                    break
-                convidados.append(convidado)
+            if convidado.lower() == "sair":
+                break
+        convidados.append(convidado)
 
         with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
             for convidado in convidados:
                 arquivo.write(convidado + "\n")
-    except FileNotFoundError:
-        print("Esse arquivo não existe. Siga a ordem certa")
 
 
 def chamar_menu():
+    print()
     print("------------------------------------------------------------")
     print("                 GERENCIADOR DE EVENTOS                    ")
     print("------------------------------------------------------------")
@@ -603,6 +542,7 @@ def chamar_menu():
     print("10 - Painel geral")
     print("11 - Sair")
     print("------------------------------------------------------------")
+    print()
 
 
 
@@ -631,6 +571,8 @@ def dashboard():
 
     hoje = datetime.now()
 
+    lista_eventos_passados = []
+
     for arquivo in arquivos:
         nome_evento = arquivo.replace(".txt", "")
         total_eventos += 1
@@ -643,17 +585,21 @@ def dashboard():
             data_arquivo = (linhas[2])
             valor_orca = int(linhas[4])
 
-        data_evento = None
-        data_evento = datetime.strptime(data_arquivo, "%d/%m/%Y")
+        try:
+            data_evento = datetime.strptime(data_arquivo, "%d/%m/%Y")
+        except ValueError:
+            print(f"Data inválida encontrada no arquivo '{arquivo}'!")
+            continue
         gastos_totais += valor_orca
 
-        if data_evento:
-            if data_evento.date() == hoje.date():
-                proximos_eventos += 1
-            elif data_evento < hoje:
-                eventos_passados += 1
-            else:
-                eventos_futuros += 1
+        if data_evento.date() == hoje.date():
+            proximos_eventos += 1
+
+        elif data_evento < hoje:
+            eventos_passados += 1
+            lista_eventos_passados.append(nome_evento)
+        else:
+            eventos_futuros += 1
 
             if data_evento > hoje:
                 if data_mais_perto is None or data_evento < data_mais_perto:
@@ -685,5 +631,10 @@ def dashboard():
         print(f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime('%d/%m/%Y')}")
     else:
         print("Nenhum evento futuro encontrado.")
+
+    if eventos_passados:
+        print("Eventos passados:")
+        for i in range(len(lista_eventos_passados)):
+            print(lista_eventos_passados[i])
 
     print("======================================================\n")
