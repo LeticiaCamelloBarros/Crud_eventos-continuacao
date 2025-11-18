@@ -486,6 +486,11 @@ def convidados_evento(nome_evento):
     
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
+
+    if not os.path.exists(arquivo_nome):
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
+
     convidados = []
 
     while True:
