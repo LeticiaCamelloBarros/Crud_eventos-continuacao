@@ -107,7 +107,6 @@ while True:
         print(("-" * 60) + "\n")
 
         nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
-
         oferecer_sugestoes(nome_do_evento)
 
     elif opcoes == "convidados" or opcoes == "9":
