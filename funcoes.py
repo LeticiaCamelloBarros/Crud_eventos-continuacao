@@ -20,11 +20,11 @@ def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
         with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
             for dado in dados:
                 arquivo.write(dado + "\n")
+                arquivo.flush()
     except TypeError:
         print("Digite de forma correta e entendível")
     except ValueError:
         print("Digite palavras, use nmeros apenas na data do evento")
-        
 
     dados = [nome_evento, tipo_evento, data_evento, local_evento, orcamento]
     nome_evento_arquivo = nome_evento.replace(' ', '_')
@@ -32,6 +32,7 @@ def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
     with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
         for dado in dados:
             arquivo.write(dado + "\n")
+            arquivo.flush()
 
 
 def visualizar(nome_evento):
@@ -60,7 +61,8 @@ def excluir(nome_evento):
         print(f"Evento '{nome_evento}' removido com sucesso!")
 
     except FileNotFoundError:
-        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
 
 
 def editar(nome_evento):
@@ -68,18 +70,19 @@ def editar(nome_evento):
     arquivo_nome = f"{nome_evento_arquivo}.txt"
 
     if not os.path.exists(arquivo_nome):
-        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
     dados_novos = []
 
     opcao = input("Qual informação que você deseja alterar: \n"
-        "nome - Nome do evento\n"
-        "tipo - Tipo do evento\n"
-        "data - Data do evento\n"
-        "local - Local do evento\n"
-        "orc - Orçamento\n"
-        "Escolha: ").lower().strip()
+                  "nome - Nome do evento\n"
+                  "tipo - Tipo do evento\n"
+                  "data - Data do evento\n"
+                  "local - Local do evento\n"
+                  "orc - Orçamento\n"
+                  "Escolha: ").lower().strip()
 
     with open(arquivo_nome, "r") as arquivo:
         for linha in arquivo:
@@ -96,6 +99,7 @@ def editar(nome_evento):
         with open(arquivo_nome_novo, "w") as arquivo:
             for item in dados_novos:
                 arquivo.write(item + '\n')
+                arquivo.flush()
 
         print(f"Arquivo renomeado para: {arquivo_nome_novo}")
         print(f"Para acessar, use: {novo_nome}")
@@ -124,6 +128,7 @@ def editar(nome_evento):
         with open(arquivo_nome, "w") as arquivo:
             for item in dados_novos:
                 arquivo.write(item + '\n')
+                arquivo.flush()
 
         print("Dados atualizados com sucesso!")
 
@@ -166,7 +171,8 @@ def tarefas_orcamento(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
     if not os.path.exists(arquivo_nome):
-        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        print(
+            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
         return
 
     nomes_tarefas = []
@@ -189,12 +195,13 @@ def tarefas_orcamento(nome_evento):
         elif desejo == "add":
             try:
                 nome_tarefa = input("Digite o nome da tarefa: ").strip()
-                valor_tarefa = input(f"Digite o custo da tarefa {nome_tarefa}").strip()
+                valor_tarefa = input(
+                    f"Digite o custo da tarefa {nome_tarefa}").strip()
                 nomes_tarefas.append(nome_tarefa)
                 valores_tarefas.append(float(valor_tarefa))
             except ValueError:
                 print("Erro: digite no formato correto")
-            except TypeError: 
+            except TypeError:
                 print("Erro: digite no formato correto")
 
         elif desejo == "orc":
@@ -206,16 +213,17 @@ def tarefas_orcamento(nome_evento):
             print(valores_tarefas)
             custo_total = sum(valores_tarefas)
             orcamento_evento = orcamento_total - custo_total
-            dados[4] = orcamento_evento 
-            print(f'Orçamento restante para o evento: R${orcamento_evento:.2f}')
+            dados[4] = orcamento_evento
+            print(
+                f'Orçamento restante para o evento: R${orcamento_evento:.2f}')
 
             with open(arquivo_nome, "w", encoding="utf-8") as arquivo:
                 for linha in dados:
                     arquivo.write(str(linha) + "\n")
+                    arquivo.flush()
 
 
 def oferecer_sugestoes(nome_evento):
-
     """
     Função usada para sugerir fornecedores, decorações e menus
     *Casamento, aniversario e reuniao são definidas como padrão, porem da para criar novas na função [Cadastrar fornecedores]
@@ -273,10 +281,11 @@ def oferecer_sugestoes(nome_evento):
             sugestao_fornecedores[tipo] = [fornecedor]
 
     if tipo_evento in sugestao_fornecedores:
-        fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
+        fornecedor_aleatorio = random.choice(
+            sugestao_fornecedores[tipo_evento])
 
         print(f"fornecedor sugestao {fornecedor_aleatorio}")
-        
+
         print("sugestões de decoração para o seu evento:")
         if tipo_evento in sugestao_decoracao:
             for item in sugestao_decoracao[tipo_evento]:
@@ -295,11 +304,13 @@ def cadastrar_fornecedores():
     fornecedores = []
 
     while True:
-        tipo_fornecedor = input("Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        tipo_fornecedor = input(
+            "Digite o tipo do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
         if tipo_fornecedor.lower() == 'sair':
             break
 
-        fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
+        fornecedor = input(
+            "Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
 
         if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
             break
@@ -310,19 +321,21 @@ def cadastrar_fornecedores():
     with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
         for forn in fornecedores:
             arquivo.write(forn + "\n")
+            arquivo.flush()
 
 
 def convidados_evento(nome_evento):
     """
     Função usada para gerenciar a lista de convidados de um evento
     """
-    
+
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}_convidados.txt"
     convidados = []
     try:
         while True:
-            convidado = input("Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
+            convidado = input(
+                "Digite o nome do convidado que deseja adicionar (ou digite 'sair' para finalizar): ").strip()
             if convidado.lower() == 'sair':
                 break
             convidados.append(convidado)
@@ -330,6 +343,7 @@ def convidados_evento(nome_evento):
         with open(arquivo_nome, "a", encoding="utf-8") as arquivo:
             for convidado in convidados:
                 arquivo.write(convidado + "\n")
+                arquivo.flush()
     except TypeError:
         print("Erro de digitação")
     except ValueError:
@@ -358,7 +372,7 @@ def chamar_menu():
 
 def dashboard():
 
-    pasta_eventos = "." 
+    pasta_eventos = "."
     arquivos = []
     for arquivo in os.listdir(pasta_eventos):
         if arquivo.endswith(".txt"):
@@ -420,7 +434,6 @@ def dashboard():
                     data_mais_longe = data_evento
                     evento_mais_longe = nome_evento
 
-
     print("\n==================== PAINEL GERAL ====================")
     print(f"Total de eventos cadastrados: {total_eventos}")
     print(f"Eventos próximos (hoje): {proximos_eventos}")
@@ -432,12 +445,14 @@ def dashboard():
     print("------------------------------------------------------")
 
     if evento_mais_perto:
-        print(f"Próximo evento: {evento_mais_perto} - {data_mais_perto.strftime('%d/%m/%Y')}")
+        print(
+            f"Próximo evento: {evento_mais_perto} - {data_mais_perto.strftime('%d/%m/%Y')}")
     else:
         print("Nenhum evento futuro encontrado.")
 
     if evento_mais_longe:
-        print(f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime('%d/%m/%Y')}")
+        print(
+            f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime('%d/%m/%Y')}")
     else:
         print("Nenhum evento futuro encontrado.")
 
