@@ -215,7 +215,6 @@ def tarefas_orcamento(nome_evento):
 
 
 def oferecer_sugestoes(nome_evento):
-
     """
     Função usada para sugerir fornecedores, decorações e menus
     *Casamento, aniversario e reuniao são definidas como padrão, porem da para criar novas na função [Cadastrar fornecedores]
@@ -224,12 +223,18 @@ def oferecer_sugestoes(nome_evento):
     dados_do_evento = []
     nome_evento_arquivo = nome_evento.replace(' ', '_')
     arquivo_nome = f"{nome_evento_arquivo}.txt"
-    try:
-        with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-            for linha in arquivo:
-                dados_do_evento.append(linha.strip())
-    except FileNotFoundError:
-        print(f"Cadastro não foi encontrado.")
+    
+    if not os.path.exists(arquivo_nome):
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
+        return
+    
+    with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
+        for linha in arquivo:
+            dados_do_evento.append(linha.strip())
+
+    if len(dados_do_evento) <= 1:
+        print("Arquivo do evento incompleto. A segunda linha deve ser o tipo do evento.")
+        return
 
     tipo_evento = dados_do_evento[1].lower()
 
@@ -257,37 +262,62 @@ def oferecer_sugestoes(nome_evento):
     fornecedores_cadastrador = []
     tipos_fornecedores_cadastrados = []
 
-    with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:
-        for linha in arquivo:
-            linha = linha.strip()
-            parte1, parte2 = linha.split("-")
-            tipos_fornecedores_cadastrados.append(parte1)
-            fornecedores_cadastrador.append(parte2)
+    if not os.path.exists("fornecedores.txt"):
+        print("O arquivo 'fornecedores.txt' não foi encontrado.")
+        return
 
-    for i in range(len(tipos_fornecedores_cadastrados)):
-        tipo = tipos_fornecedores_cadastrados[i]
-        fornecedor = fornecedores_cadastrador[i]
-        if tipo in sugestao_fornecedores:
-            sugestao_fornecedores[tipo].append(fornecedor)
-        elif tipo not in sugestao_fornecedores:
-            sugestao_fornecedores[tipo] = [fornecedor]
+    try:
+        with open("fornecedores.txt", "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linha = linha.strip()
+                if "-" not in linha:
+                    print(f"Linha inválida encontrada no arquivo de fornecedores: '{linha}'")
+                    continue
+                parte1, parte2 = linha.split("-", 1, "\n")
+                tipos_fornecedores_cadastrados.append(parte1)
+                fornecedores_cadastrador.append(parte2)
 
-    if tipo_evento in sugestao_fornecedores:
-        fornecedor_aleatorio = random.choice(sugestao_fornecedores[tipo_evento])
+        if len(tipos_fornecedores_cadastrados) != len(fornecedores_cadastrador):
+            print("Erro: listas de fornecedores desalinhadas.")
+            return
 
+        for i in range(len(tipos_fornecedores_cadastrados)):
+            tipo = tipos_fornecedores_cadastrados[i]
+            fornecedor = fornecedores_cadastrador[i]
+            if tipo in sugestao_fornecedores:
+                sugestao_fornecedores[tipo].append(fornecedor)
+            else:
+                sugestao_fornecedores[tipo] = [fornecedor]
+
+        if tipo_evento not in sugestao_fornecedores:
+            print("Esse tipo de evento não possui fornecedores cadastrados.")
+            return
+
+        fornecedores_do_tipo = sugestao_fornecedores[tipo_evento]
+
+        if not fornecedores_do_tipo:
+            print("Não existem fornecedores disponíveis para esse evento.")
+            return
+
+        fornecedor_aleatorio = random.choice(fornecedores_do_tipo)
         print(f"fornecedor sugestao {fornecedor_aleatorio}")
-        
-        print("sugestões de decoração para o seu evento:")
-        if tipo_evento in sugestao_decoracao:
-            for item in sugestao_decoracao[tipo_evento]:
-                print(item)
-        print("sugestões de menu para o seu evento:")
-        if tipo_evento in sugestao_menu:
-            for item in sugestao_menu[tipo_evento]:
-                print(item)
 
-    else:
-        print("Não temos fornecedores cadastrados para esse tipo, volte ao menu e cadastro")
+        print("sugestões de decoração para o seu evento:")
+        for item in sugestao_decoracao.get(tipo_evento, []):
+            print(item)
+
+        print("sugestões de menu para o seu evento:")
+        for item in sugestao_menu.get(tipo_evento, []):
+            print(item)
+
+    except FileNotFoundError:
+        print("O arquivo 'fornecedores.txt' não foi encontrado.")
+    except ValueError:
+        print("Erro ao processar uma linha do arquivo (split inválido).")
+    except IndexError:
+        print("Erro: alguma lista ficou desalinhada.")
+    except KeyError:
+        print("Esse evento não existe nos dicionários de sugestões.")
 
 
 def cadastrar_fornecedores():
@@ -300,7 +330,6 @@ def cadastrar_fornecedores():
             break
 
         fornecedor = input("Digite o nome do fornecedor que deseja cadastrar (ou digite 'sair' para finalizar): ").strip().lower()
-
         if fornecedor.lower() == 'sair' or tipo_fornecedor.lower() == 'sair':
             break
 
