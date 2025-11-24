@@ -23,9 +23,23 @@ while True:
         if not nome_do_evento:
             print("voce não pode deixar um campo vazio, tente de novo.\n")
             break
-        
-        tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
 
+        tipo_do_evento = input("Insira o tipo de evento:\n1 - casamento\n2 - aniversario\n3 - reuniao\n4 - festa adulto\n").capitalize().strip()
+                
+        while True:
+            if tipo_do_evento == 'Casamento':
+                break
+            elif tipo_do_evento == 'Aniversario':
+                break
+            elif tipo_do_evento == 'Reuniao':
+                break
+            elif tipo_do_evento == 'Festa adulto':
+                break
+            else: 
+                print('Digite apenas um dos tipos mostrados.')
+                tipo_do_evento = input("Insira o tipo de evento:\n1 - casamento\n2 - aniversario\n3 - reuniao\n4 - festa adulto\n").capitalize().strip()
+                continue
+        
         if not tipo_do_evento:
             print("voce não pode deixar um campo vazio, tente de novo.\n")
             break
@@ -44,6 +58,15 @@ while True:
         print("  VISUALIZAR EVENTOS".center(60))
         print(("-" * 60) + "\n")
 
+        arquivos_txt = []
+        for f in os.listdir():
+            if f.endswith(".txt"):
+                arquivos_txt.append(f)
+
+        if not arquivos_txt:  
+            print("Não existe nenhum evento salvo.")
+            continue
+
         nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
 
         print()
@@ -53,6 +76,15 @@ while True:
         print("\n" + "-" * 60)
         print("  EDITAR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
+
+        rquivos_txt = []
+        for f in os.listdir():
+            if f.endswith(".txt"):
+                arquivos_txt.append(f)
+
+        if not arquivos_txt:  
+            print("Não existe nenhum evento salvo para editar.")
+            continue
 
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
 
@@ -106,7 +138,7 @@ while True:
         print("  SUGESTÕES DE EVENTOS".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
+        nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestão: ").capitalize().strip()
         oferecer_sugestoes(nome_do_evento)
 
     elif opcoes == "convidados" or opcoes == "9":
@@ -126,4 +158,3 @@ while True:
 
     else:
         print("Opção inválida.\n")
-
