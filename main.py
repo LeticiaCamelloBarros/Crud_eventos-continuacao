@@ -21,13 +21,13 @@ while True:
         nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
 
         if not nome_do_evento:
-            print("voce não pode deixar um campo vazio .Tente de novo")
+            print("voce não pode deixar um campo vazio, tente de novo.\n")
             break
         
         tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
 
         if not tipo_do_evento:
-            print("voce não pode deixar um campo vazio .Tente de novo")
+            print("voce não pode deixar um campo vazio, tente de novo.\n")
             break
 
         data_do_evento = input("Insira a data desta forma (DD/MM/AAAA): ").strip()
@@ -47,7 +47,7 @@ while True:
             break
 
         adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento, orcamento)
-        print("\n Evento cadastrado com sucesso!")
+        print("\nEvento cadastrado com sucesso!")
 
     elif opcoes == "visualizar" or opcoes == "visu" or opcoes == "2":
         print("\n" + "-" * 60)
@@ -66,8 +66,6 @@ while True:
 
         nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
 
-        nome_do_evento = input("Insira o nome do evento que deseja editar: ").capitalize().strip()
-
         editar(nome_do_evento)
 
     elif opcoes == "excluir" or opcoes == "exc" or opcoes == "4":
@@ -75,9 +73,16 @@ while True:
         print("  EXCLUIR UM EVENTO".center(60))
         print(("-" * 60) + "\n")
 
-        nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
+        arquivos_txt = []
+        for f in os.listdir():
+            if f.endswith(".txt"):
+                arquivos_txt.append(f)
 
-        nome_do_evento = input("Insira o nome do evento que deseja apagar: ").capitalize().strip()
+        if not arquivos_txt:  
+            print("Não existe nenhum evento salvo para excluir.")
+            continue
+
+        nome_do_evento = input("Digite o nome do evento que deseja excluir: ")
 
         excluir(nome_do_evento)
 
@@ -87,7 +92,6 @@ while True:
         print(("-" * 60) + "\n")
 
         nome_do_evento = input("Insira o nome do evento que deseja ver quanto tempo falta: ").capitalize().strip()
-
 
         tempo_restante_evento(nome_do_evento)
 
@@ -113,7 +117,6 @@ while True:
         print(("-" * 60) + "\n")
 
         nome_do_evento = input("Insira o nome do evento que deseja ter uma sugestao ").capitalize().strip()
-
         oferecer_sugestoes(nome_do_evento)
 
     elif opcoes == "convidados" or opcoes == "9":
@@ -128,5 +131,9 @@ while True:
         print("\n" + "-" * 60)
         print("  PAINEL DE EVENTOS".center(60))
         print(("-" * 60) + "\n")
-
+    
         dashboard()
+
+    else:
+        print("Opção inválida.\n")
+
