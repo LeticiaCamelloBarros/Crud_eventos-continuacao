@@ -29,6 +29,7 @@ def adicionar(nome_evento, tipo_evento, data_evento, local_evento, orcamento):
         for dado in dados:
             arquivo.write(str(dado) + "\n")
 
+
 def visualizar(nome_evento):
     """
     Função usada para visualizar o evento com base no banco de dados
@@ -49,12 +50,12 @@ def excluir(nome_evento):
     try:
         nome_evento_arquivo = nome_evento.replace(' ', '_')
         arquivo_nome = f"{nome_evento_arquivo}.txt"
+
         os.remove(arquivo_nome)
+        print(f"Evento '{nome_evento}' removido com sucesso!")
+
     except FileNotFoundError:
-        print(
-            f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
-        return
-        print("")
+        print(f"O evento '{nome_evento}' não foi encontrado. Verifique o nome e tente novamente.")
 
 def editar(nome_evento):
     nome_evento_arquivo = nome_evento.replace(' ', '_')
@@ -216,37 +217,6 @@ def oferecer_sugestoes(nome_evento):
                 dados_do_evento.append(linha.strip())
     except FileNotFoundError:
         print(f"Cadastro não foi encontrado.")
-        escolha = input(
-            "Deseja cadastrar esse evento primeiro? (sim/não): ").strip().lower()
-
-        if escolha == "sim":
-            nome_do_evento = input("Insira o nome do evento: ").capitalize().strip()
-
-            tipo_do_evento = input("Insira o tipo de evento: ").capitalize().strip()
-
-            data_do_evento = input("Insira a data desta forma (XX/YY/ZZZZ): ")
-
-            local_do_evento = input("Insira o local do evento: ").capitalize().strip()
-
-            orcamento = input("Insira o orçamento do evento: ")
-
-            adicionar(nome_do_evento, tipo_do_evento, data_do_evento, local_do_evento,orcamento )
-
-            print("\n Evento cadastrado com sucesso!")
-
-            nome_evento_arquivo = nome_evento.replace(' ', '_')
-            arquivo_nome = f"{nome_evento_arquivo}.txt"
-
-            with open(arquivo_nome, "r", encoding="utf-8") as arquivo:
-                for linha in arquivo:
-                    dados_do_evento.append(linha.strip())
-
-        elif escolha == "não":
-            print("Voltando ao menu...")
-            chamar_menu()
-        else:
-            print("Voltando ao menu...")
-            chamar_menu()
 
     tipo_evento = dados_do_evento[1].lower()
 
@@ -350,6 +320,7 @@ def convidados_evento(nome_evento):
         print("Erro de valor")
 
 def chamar_menu():
+    print()
     print("------------------------------------------------------------")
     print("                 GERENCIADOR DE EVENTOS                    ")
     print("------------------------------------------------------------")
@@ -392,6 +363,8 @@ def dashboard():
     data_mais_longe = None
 
     hoje = datetime.now()
+
+    lista_eventos_passados = []
 
     for arquivo in arquivos:
         nome_evento = arquivo.replace(".txt", "")
@@ -445,5 +418,10 @@ def dashboard():
         print(f"Evento mais distante: {evento_mais_longe} - {data_mais_longe.strftime("%d/%m/%Y")}")
     else:
         print("Nenhum evento futuro encontrado.")
+
+    if eventos_passados:
+        print("Eventos passados:")
+        for i in range(len(lista_eventos_passados)):
+            print(lista_eventos_passados[i])
 
     print("======================================================\n")
