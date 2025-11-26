@@ -1,6 +1,6 @@
 # Projeto: “Organiza Festa” – Sistema de Planejamento de Eventos
 
-Este é um projeto para a matéria de Introdução a Computação do curso de Ciência da Computação da Cesar School.
+Este é um projeto para a matéria de fundamentos de programação do curso de Ciência da Computação da Cesar School.
 
 ### Membros do Grupo 7:
 
@@ -17,39 +17,42 @@ Esse projeto tem como função criar um CRUD de eventos utilizando funçoes e ma
 
 # Manual de uso do programa
 
-## Funções do programa:
+## Funcionalidades  do programa:
 
-- Função Adicionar:  
+- Funcionalidade Adicionar:  
 É uma função que cria um arquivo com base nas informações que serão adicionadas pelo usuário.  
   - Nome do evento;
   - Tipo de evento (aniversário, reunião, etc.);
   - Data do evento;
   - Local do evento;  
 
-- Função Visualizar:  
+- Funcionalidade Visualizar:  
 É uma função usada para visualizar o evento com base no banco de dados criado pela função adicionar.
 
-- Função Editar:  
+- Funcionalidade Editar:  
 É uma função usada para editar as informações do evento criado anteriormente.  
   - Nome do evento;
   - Tipo de evento (aniversário, reunião, etc.);
   - Data do evento;
   - Local do evento;
 
-- Função Excluir:  
+- Funcionalidade Excluir:  
 É uma função criada para excluir eventos do banco de dados.
 
-- Função Tempo Restante:  
+- Funcionalidade Tempo Restante:  
 É uma função que mostra quantos dias faltam para o evento ocorrer.
 
-- Função Tarefas/Orçamento:  
+- Funcionalidade Tarefas/Orçamento:  
 É uma função que você pode adicionar tarefas a serem feitas para o seu evento e o orçamento disponível para realização dessas atividades.
 
-- Função Oferecer Sugestões:  
+- Funcionalidade Oferecer Sugestões:  
 É uma função usada para sugerir decorações, comidas e músicas para o evento. __*Casamentos e aniversários são tratados como eventos padrão*__.
 
-- Função Cadastras Fornecedor:  
-É uma função que permite cadastrar fornecedores para o evento, como buffet, decoração, música, etc. 
+- Funcionalidade Cadastras Fornecedor:  
+É uma função que permite cadastrar fornecedores para o evento, como buffet, decoração, música, etc.
+
+- Funcionalidade extra : painel de eventos .
+  *mostra todos os eventos atualmente cadastrados ( excluso os deletados )  
 
 ## Como executar o programa:
 
