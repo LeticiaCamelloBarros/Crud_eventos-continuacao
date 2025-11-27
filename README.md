@@ -52,7 +52,7 @@ Esse projeto tem como função criar um CRUD de eventos utilizando funçoes e ma
 É uma função que permite cadastrar fornecedores para o evento, como buffet, decoração, música, etc.
 
 - Funcionalidade extra : painel de eventos .
-  *mostra todos os eventos atualmente cadastrados ( excluso os deletados )  
+  * mostra todos os eventos atualmente cadastrados ( excluso os deletados )  
 
 ## Como executar o programa:
 
